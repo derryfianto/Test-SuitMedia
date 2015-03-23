@@ -17,21 +17,32 @@ import android.widget.Toast;
 import com.example.user.myapplication.Adapter.GuestAdapter;
 import com.example.user.myapplication.Model.Guest;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
 public class Screen4Activity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    public static ArrayList<Guest> listGuest = new ArrayList<>();
+    ArrayList<Guest> listGuest = new ArrayList<>();
 
     private ProgressDialog pDialog;
     private static String url = "http://dry-sierra-6832.herokuapp.com/api/people";
-    private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_BIRTHDATE = "birthdate";
+    private static final String data_ID = "id";
+    private static final String data_name = "name";
+    private static final String data_birthdate = "birthdate";
     JSONArray guests = null;
 
     @Override
@@ -40,18 +51,6 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
         setContentView(R.layout.activity_screen4);
 
         new GetGuest().execute();
-
-//        Guest guest = new Guest("Andi","2014-01-01", R.drawable.football);
-//        Guest guest2 = new Guest("Budi","2014-02-02", R.drawable.basketball);
-//        Guest guest3 = new Guest("Charlie","2014-03-03", R.drawable.running);
-//        Guest guest4 = new Guest("Dede","2014-06-06", R.drawable.swimming);
-//        Guest guest5 = new Guest("Joko","2014-02-12", R.drawable.basketball);
-//
-//        listGuest.add(guest);
-//        listGuest.add(guest2);
-//        listGuest.add(guest3);
-//        listGuest.add(guest4);
-//        listGuest.add(guest5);
 
     }
 
@@ -62,32 +61,7 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String tgl_lahir =listGuest.get(position).getBirthdate();
-        System.out.println("TANGgAL"+tgl_lahir);
-        String tggl_substring = tgl_lahir.substring(7);
-        int tggl = Integer.valueOf(tggl_substring);
-        String hasil="";
-        if(tggl%2==0 && tggl%3==0)
-        {
-            hasil="iOS";
-        }
-        else if(tggl%2==0)
-        {
-            hasil="blackberry";
-        }
-        else if(tggl%3==0)
-        {
-            hasil="android";
-        }
-        else
-        {
-            hasil="feature phone";
-        }
 
-        Toast.makeText(Screen4Activity.this, hasil, Toast.LENGTH_SHORT).show();
-        Intent guestIntent = new Intent(Screen4Activity.this, Screen2Activity.class);
-        guestIntent.putExtra("guest",listGuest.get(position).getNama());
-        startActivity(guestIntent);
     }
 
     private class GetGuest extends AsyncTask<Void, Void, Void> {
@@ -111,10 +85,10 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
                         "Number of entries " + jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    int id = jsonObject.getInt(TAG_ID);
-                    String name = jsonObject.getString(TAG_NAME);
-                    String birthdate = jsonObject.getString(TAG_BIRTHDATE);
-                    listGuest.add(new Guest(id, R.drawable.pic1, name, birthdate));
+                    int id = jsonObject.getInt(data_ID);
+                    String name = jsonObject.getString(data_name);
+                    String birthdate = jsonObject.getString(data_birthdate);
+                    listGuest.add(new Guest(id, name, birthdate, R.drawable.running));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -135,18 +109,58 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
 //            gridView.setAdapter(customGridAdapter);
 
             GridView gridView = (GridView) findViewById(R.id.gridviewGuest);
-            gridView.setAdapter(new GuestAdapter(this,R.layout.screen4_item,listGuest));
-            gridView.setOnItemClickListener(this);
+            gridView.setAdapter(new GuestAdapter(Screen4Activity.this,R.layout.screen4_item,listGuest));
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String tgl_lahir =listGuest.get(position).getBirthdate();
+                    String tggl_substring = tgl_lahir.substring(7);
+                    String bulan_substring = tgl_lahir.substring(4,7);
 
-            gridView.setOnItemClickListener(new OnItemClickListener() {
-                public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                    Guest g = (Guest) adapterView.getItemAtPosition(position);
-                    String nama = g.getNama();
-                    String birthdate = g.getBirthdate();
-                    Intent intent = new Intent(Screen4.this,Screen2.class);
-                    intent.putExtra("gNama", nama);
-                    intent.putExtra("gBirthdate", birthdate);
-                    startActivity(intent);
+                    int tggl = Integer.valueOf(tggl_substring);
+                    int bulan = Integer.valueOf(bulan_substring);
+
+                    String hasil="";
+                    if(tggl%2==0 && tggl%3==0)
+                    {
+                        hasil="iOS";
+                    }
+                    else if(tggl%2==0)
+                    {
+                        hasil="blackberry";
+                    }
+                    else if(tggl%3==0)
+                    {
+                        hasil="android";
+                    }
+                    else
+                    {
+                        hasil="feature phone";
+                    }
+
+                    Toast.makeText(Screen4Activity.this, hasil, Toast.LENGTH_SHORT).show();
+
+                    //Cek Prima
+                    int counter =0;
+                    for(int i=1;i<=bulan;i++)
+                    {
+                        if(bulan%i==0)
+                        {
+                            counter = counter + 1;
+                        }
+                    }
+
+                    if(counter==2)
+                    {
+                        Toast.makeText(Screen4Activity.this, "Bulan adalah Prima", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(Screen4Activity.this, "Bulan bukan Prima", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Intent guestIntent = new Intent(Screen4Activity.this, Screen2Activity.class);
+                    guestIntent.putExtra("guest",listGuest.get(position).getNama());
+                    startActivity(guestIntent);
                 }
             });
         }
@@ -170,7 +184,7 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
                     builder.append(line);
                 }
             } else {
-                Log.e(Screen4.class.toString(), "Failed to download file");
+                Log.e(Screen4Activity.class.toString(), "Failed to download file");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();

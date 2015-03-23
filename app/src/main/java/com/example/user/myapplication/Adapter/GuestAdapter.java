@@ -45,15 +45,10 @@ public class GuestAdapter extends BaseAdapter{
         return 0;
     }
 
-    static class RecordHolder{
-
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View rowView = convertView;
-        RecordHolder rh = null;
 
         ImageView imageView;
         TextView textView;

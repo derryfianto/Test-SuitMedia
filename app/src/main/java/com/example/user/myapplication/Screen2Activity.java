@@ -21,13 +21,14 @@ public class Screen2Activity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen2);
         Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         String messageEvent = intent.getStringExtra("event");
         String messageGuest = intent.getStringExtra("guest");
 
         SharedPreferences sp = this.getSharedPreferences("namaInput", Context.MODE_PRIVATE);
 
         //Palindrom
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
         if(message!=null)
         {
             String reverse="";
@@ -46,21 +47,21 @@ public class Screen2Activity extends ActionBarActivity {
                         Toast.LENGTH_SHORT).show();
         }
 
-        String namaGuest = sp.getString("namaInput","");
+        String namaGuest;
+        namaGuest = sp.getString("namaInput","");
+        System.out.println("NAMA PERSISTENCE : "+ namaGuest);
 
-        if(message!=null)
-        {
-            //Save
-            sp.edit().putString("namaInput",message).apply();
-        }
-        else
+        if(message==null)
         {
             //Ambil dari persistence
             message=namaGuest;
         }
+        //Save
+        sp.edit().putString("namaInput",message).apply();
 
         TextView textViewName = (TextView) findViewById(R.id.textViewNama);
-        textViewName.setText(namaGuest);
+        textViewName.setText(message);
+        System.out.println("MESSAGE: "+message);
         if(messageEvent!=(null))
         {
             Button buttonEvent = (Button) findViewById(R.id.buttonPilihEvent);
@@ -75,13 +76,13 @@ public class Screen2Activity extends ActionBarActivity {
     }
 
     public void getEvent(View view) {
-        // Do something in response to button
+        // Button Event
         Intent intentToEvent = new Intent(Screen2Activity.this,Screen3Activity.class);
         startActivity(intentToEvent);
     }
 
     public void getGuest(View view) {
-        // Do something in response to button
+        // Button Guest
         Intent intentToGuest = new Intent(Screen2Activity.this,Screen4Activity.class);
         startActivity(intentToGuest);
     }
