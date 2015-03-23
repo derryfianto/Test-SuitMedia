@@ -26,11 +26,15 @@ public class Screen3Activity extends ListActivity {
         Event event2 = new Event(R.drawable.basketball,"Basketball","15 Maret 2015");
         Event event3 = new Event(R.drawable.swimming,"Swimming","23 Juni 2015");
         Event event4 = new Event(R.drawable.running,"Running","30 September 2015");
+        Event event5 = new Event(R.drawable.badminton,"Badminton","12 Oktober 2015");
+        Event event6 = new Event(R.drawable.golf,"Golf","4 November 2015");
 
         listEvent.add(event);
         listEvent.add(event2);
         listEvent.add(event3);
         listEvent.add(event4);
+        listEvent.add(event5);
+        listEvent.add(event6);
 
         EventAdapter ea = new EventAdapter(this,listEvent);
 //        ArrayAdapter<Event> aa = new ArrayAdapter<Event>(this,
@@ -43,7 +47,7 @@ public class Screen3Activity extends ListActivity {
     	    protected void onListItemClick(ListView l, View v, int position, long id) {
         	        // TODO Auto-generated method stub
         	        super.onListItemClick(l, v, position, id);
-        	        Toast.makeText(Screen3Activity.this, "Kamu Memilih  " + listEvent.get(position).getNama(),
+        	        Toast.makeText(Screen3Activity.this, "Choose  " + listEvent.get(position).getNama(),
                             Toast.LENGTH_SHORT).show();
                     Intent eventIntent = new Intent(Screen3Activity.this,Screen2Activity.class);
                     String nameEvent = listEvent.get(position).getNama();

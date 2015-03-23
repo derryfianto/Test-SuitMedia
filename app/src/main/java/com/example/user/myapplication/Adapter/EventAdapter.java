@@ -56,7 +56,15 @@ public class EventAdapter extends ArrayAdapter<Event> {
             	            iv.setImageResource(image);
             	            tv.setText(name);
                             tv2.setText(tggl);
-            	        }
+            	        } else if (name.equals("Badminton")) {
+                            iv.setImageResource(image);
+                            tv.setText(name);
+                            tv2.setText(tggl);
+                        } else if (name.equals("Golf")) {
+                            iv.setImageResource(image);
+                            tv.setText(name);
+                            tv2.setText(tggl);
+                    }
 
         	        return rowView;
     }

@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".Screen2Activity"
-            android:label="@string/title_activity_screen2"
+            android:label="Screen 2"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".Screen3Activity"
-            android:label="@string/title_activity_screen3"
+            android:label="Event List"
             android:parentActivityName=".Screen2Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".Screen4Activity"
-            android:label="@string/title_activity_screen4"
+            android:label="Guest List"
             android:parentActivityName=".Screen2Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

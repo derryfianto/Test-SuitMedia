@@ -88,7 +88,7 @@ public class Screen4Activity extends Activity implements AdapterView.OnItemClick
                     int id = jsonObject.getInt(data_ID);
                     String name = jsonObject.getString(data_name);
                     String birthdate = jsonObject.getString(data_birthdate);
-                    listGuest.add(new Guest(id, name, birthdate, R.drawable.running));
+                    listGuest.add(new Guest(id, name, birthdate, R.drawable.person));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
