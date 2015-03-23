@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="horizontal">
+
+    <ImageView
+    	        android:id="@+id/logo"
+    	        android:layout_width="60dp"
+    	        android:layout_height="80dp"
+    	        android:layout_marginLeft="10dp"
+    	        android:src="@drawable/ic_launcher" />
+
+    <TextView
+    	        android:id="@+id/eventName"
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+        android:text=""
+    	        android:textAllCaps="true"
+    	        android:textSize="20dp"
+        android:layout_weight="0.31"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/tglEvent"
+        android:layout_alignStart="@+id/tglEvent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:text=""
+        android:layout_marginLeft="102dp"
+        android:id="@+id/tglEvent"
+        android:layout_weight="0.20"
+        android:layout_toRightOf="@+id/logo"
+        android:layout_marginStart="102dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_below="@+id/eventName" />
+
+</RelativeLayout>
